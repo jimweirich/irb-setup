@@ -1,0 +1,10 @@
+= Ruby/IRB setup
+
+Here is my personal setup for IRB.  Put these files in a .irb.d directory in your home directory.  Then link .irbrc to the dot.irbrc file.
+
+  cd
+  ln -s .irb.d/dot.irbrc .irbrc
+
+Enjoy ...
+
+-- Jim Weirich
