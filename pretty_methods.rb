@@ -7,7 +7,7 @@ end
 
 def find_method(method_name)
   result = []
-#  method_name = Regexp.new(Regexp.quote(method_name.to_s)) if method_name.kind_of?(Symbol)
+  method_name = Regexp.new(Regexp.quote(method_name.to_s)) if method_name.kind_of?(Symbol)
   method_name = Regexp.new(method_name) if method_name.kind_of?(String)
   ObjectSpace.each_object(Class) do |klass|
     methods = klass.instance_methods.select { |name| name =~ method_name }
