@@ -145,13 +145,15 @@ module Lustro
     attr_reader :options
 
     def emit(string)
+      puts string
     end
 
     def display(methods, opts)
       @options = opts
       if options[:flat]
         list = methods.map { |rc, ms| ms }.flatten.sort
-        display_scope(["#{methods.first.first} (flat)", list])
+        the_class = methods.map { |m| m.first }.detect { |m| ! m.is_a?(Symbol) }
+        display_scope(["#{the_class} (flat)", list])
       else
         methods.each do |scope|
           break if scope.first == options[:omit]
