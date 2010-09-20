@@ -47,6 +47,7 @@ module Lustro
     puts "  :ancestors     (:a)   -- Display Ancestors."
     puts "  :singleton     (:s)   -- Include only singleton methods."
     puts "  :flat          (:f)   -- Flatten the display into a single list of methods."
+    puts "  :full                 -- List all ancestors, even if method list is empty."
     puts "  :noalpha       (:na)  -- Disable alphabetic bin sorting."
     puts "  :nocolor       (:nc)  -- Display without color."
   end
@@ -96,6 +97,8 @@ module Lustro
         methods = methods_for_class(obj)
       when :class, :c
         methods = methods_for_object(obj.class)
+      when :full
+        format_opts[:full] = true
       when :private, :priv, :p
         methods = methods_for_object(obj, PrivateMethods)
         if methods.first.first == :singleton
@@ -130,8 +133,8 @@ module Lustro
   def self.filter(methods, re)
     methods.map { |rc, ms|
       list = ms.grep(re)
-      list.empty? ? nil : [rc, list]
-    }.compact
+      [rc, list]
+    }
   end
 
   def self.normalize(list)
@@ -170,9 +173,12 @@ module Lustro
     end
 
     def display_scope(scope)
-      display_class(scope.first, scope[1])
-      display_methods(scope[1]) unless scope[1].empty?
-      display_break
+      ruby_class, method_list = scope
+      if ! method_list.empty? || options[:full]
+        display_class(ruby_class, method_list)
+        display_methods(method_list)
+        display_break
+      end
     end
 
     def display_methods(methods)
