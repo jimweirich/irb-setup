@@ -273,6 +273,7 @@ module Lustro
   self.formatter = ColorFormatter.new
 end
 
+usage "m", "Methods for an object ('m' with no args for details)"
 def m(*args)
   Lustro.format(*args)
   nil
