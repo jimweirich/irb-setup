@@ -28,6 +28,5 @@ end
 emacs_noecho
 
 END {
-  puts "END CODE"
   emacs_noecho
 }
